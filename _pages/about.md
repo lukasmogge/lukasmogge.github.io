@@ -2,7 +2,7 @@
 layout: about
 title: about
 permalink: /
-subtitle: Economist working mainly on topics related the Environment and Development at <a href='https://www.rwi-essen.de/'>RWI – Leibniz Institute for Economic Research</a>, Berlin.
+subtitle: Economist working mainly on topics related the Environment and Development at <a href='https://www.rwi-essen.de/en/rwi/team/person/lukas-mogge'>RWI – Leibniz Institute for Economic Research</a>, Berlin.
 
 profile:
   align: right
@@ -13,7 +13,7 @@ profile:
     <p>Berlin, Germany</p>
 
 selected_papers: false
-social: true
+social: false
 
 announcements:
   enabled: false
