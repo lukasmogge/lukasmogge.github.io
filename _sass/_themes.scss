@@ -1,0 +1,11 @@
+/* --- Custom Light Theme Color Overrides --- */
+[data-theme="light"] {
+  --global-theme-color: #1a5276;       /* Changes pink links/buttons to Navy Blue */
+  --global-hover-color: #113f5c;       /* Changes the link hover color */
+}
+
+/* --- Custom Dark Theme Color Overrides --- */
+[data-theme="dark"] {
+  --global-theme-color: #5dade2;       /* Bright light blue for readability in dark mode */
+  --global-hover-color: #2980b9;
+}
