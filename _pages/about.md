@@ -6,7 +6,7 @@ subtitle:
 
 profile:
   align: right
-  image: RWI_Lukas-4553.jpg
+  image: RWI_Lukas-4650.jpg
   image_circular: false # crops the image to make it circular
   more_info:
 
