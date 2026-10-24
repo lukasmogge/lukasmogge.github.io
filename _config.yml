@@ -5,10 +5,9 @@
 title: blank # the website title (if blank, full name will be used instead)
 first_name: Lukas
 last_name: Mogge
-contact_note: >
-  Get in touch lukas.mogge [at] rwi-essen.de.
+contact_note: #
 description: > # the ">" symbol means to ignore newlines until "footer_text:"
-  A simple, whitespace theme for academics. Based on [*folio](https://github.com/bogoli/-folio) design.
+  Applied environmental and development economics by Lukas Mogge - Personal Website 
 footer_text: >
   Hosted by <a href="https://pages.github.com/" target="_blank">GitHub Pages</a>.
   Photo by <a href="https://bilderinstitut.de" target="_blank">Bilderinstitut</a>.
@@ -228,6 +227,7 @@ kramdown:
 # Includes & excludes
 include: ["_pages"]
 exclude:
+  - SETUP_AND_FILES.md
   - AGENTS.md
   - al-folio-upgrade-report.md
   - bin/
@@ -354,8 +354,8 @@ display_categories: ["external-services"] # these categories will be displayed o
 # -----------------------------------------------------------------------------
 
 scholar:
-  last_name: [Einstein]
-  first_name: [Albert, A.]
+  last_name: [Mogge]
+  first_name: [Lukas]
 
   style: apa
   locale: en
@@ -544,7 +544,7 @@ third_party_libraries:
     version: "5.5.0"
   google_fonts:
     url:
-      fonts: "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Material+Icons&display=swap"
+      fonts: "https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Roboto+Slab:100,300,400,500,700|Source+Serif+4:400,600,700|Source+Sans+3:400,600,700|Material+Icons&display=swap"
   highlightjs:
     integrity:
       css:

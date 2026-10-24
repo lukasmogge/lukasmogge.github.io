@@ -1,5 +1,7 @@
 /*******************************************************************************
- * Themes
+ * Themes  — LOCAL OVERRIDE of al_folio_core's _sass/_themes.scss
+ * Only change vs the gem original: the two navy lines in :root (marked LM).
+ * If you upgrade the gem, re-copy its new _themes.scss and re-apply these two.
  ******************************************************************************/
 @use "variables" as v;
 @use "sass:color";
