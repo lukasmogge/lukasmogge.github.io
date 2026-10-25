@@ -1,212 +1,219 @@
 # Lukas Mogge — Website handbook
 
-This is your own notes file for the al-folio v1 site at `lukasmogge.github.io`.
-It explains what each custom file does, where it belongs, and how the whole
-setup (git, VS Code, Codespaces) fits together. Keep a copy in your knowledge
-base and update it as the site changes. It is NOT published — exclude it from
-the build (see the `_config.yml` note below) or just keep it out of the repo.
+Notes file for the al-folio v1 site at `lukasmogge.github.io`. Explains what each
+custom file does, where it belongs, and how the setup (git, VS Code, Codespaces)
+fits together. Keep a copy in your knowledge base and update it as the site
+changes. It is in the repo but excluded from the build (see `_config.yml`
+`exclude:`), so it is not published.
+
+Gem version at last edit: **al_folio_core 1.0.15**.
 
 ---
 
-## 1. How the whole thing is wired (the mental model)
+## 1. Mental model (how it is wired)
 
 - **The theme is a set of gems, not files in your repo.** al-folio v1 is a
-  "thin starter": the layouts, styling and logic live in the `al_folio_core`
-  gem (and sibling gems). Your repo holds only _content_ and _overrides_. This
-  is why you can't find the theme's CSS in your repo — it's inside the gem at
-  `/usr/local/bundle/gems/al_folio_core-<version>/`.
-- **You customise in three ways, in order of preference:**
-  1. `_config.yml` settings and `_data/*.yml` — the safe, update-proof way.
-  2. Content files — `_pages/*.md`, `_projects/*.md`, `_bibliography`, your bio.
-     Also safe; these are yours, updates never touch them.
+  "thin starter": layouts, styling and logic live in the `al_folio_core` gem
+  (and siblings), at `/usr/local/bundle/gems/al_folio_core-<version>/`. Your
+  repo holds only content and overrides.
+- **Three ways to customise, in order of preference:**
+  1. `_config.yml` settings and `_data/*.yml` — safe, update-proof.
+  2. Content files — `_pages/*.md`, `_projects/*.md`, your bio. Safe; yours.
   3. **Overrides** — copying a gem file into your repo (same path/name) and
-     editing it. Your copy wins. This is the fragile route: when the gem
-     updates, your copy can drift from the new original and may need
-     re-reconciling. Use only when 1 and 2 can't express the change.
-     Colour and fonts are the two overrides we use.
-- **The build output (`_site/`) is generated — never edit it.** Same for
-  anything the gem compiles (e.g. `assets/css/main.css`).
+     editing it. Your copy wins. Fragile across gem upgrades. Used for colour,
+     fonts, and (via a custom page) the research layout.
+- **Build output (`_site/`) is generated — never edit it.** Same for the
+  compiled `assets/css/main.css`.
 
-### The "is this change safe?" test
+### "Is this change safe?" test
 
-If a change only edits _your_ files (`_config.yml`, `_data/`, `_pages/`,
-`_projects/`, your bio, assets) → safe, update-proof.
-If it needs copying/editing a _gem_ file (anything under `_sass/` that mirrors
-a gem file) → override; note it, and expect to re-check it after a gem upgrade.
+Only edits _your_ files (`_config.yml`, `_pages/`, `_projects/`, bio, assets) →
+safe. Needs copying/editing a _gem_ file (anything mirroring `_sass/…`) →
+override; note it, re-check after a gem upgrade.
 
 ### Updates
 
-You are NOT obliged to update the gems. A pinned version keeps working
-indefinitely on GitHub Pages. Update only to get new features/fixes. When you
-do, run `bundle exec al-folio upgrade audit` — it flags your overrides
-(currently `_sass/_themes.scss`, later `_sass/_typography.scss`) so you can
-re-check them against the new gem versions.
+You are NOT obliged to update the gems. A pinned version keeps working. When you
+do update, run `bundle exec al-folio upgrade audit` — it flags your overrides
+(`_sass/_themes.scss`, `_sass/_typography.scss`) so you can re-check them against
+the new gem versions.
 
 ---
 
-## 2. The files in this package — what each is and where it goes
+## 2. What is DONE (state of the site)
 
-| File (in this package)             | Goes in repo at           | Status  | Purpose                                                                                    |
-| ---------------------------------- | ------------------------- | ------- | ------------------------------------------------------------------------------------------ |
-| `_config.yml`                      | `/_config.yml`            | ready   | Site settings (done + a few additions marked `# LM:`)                                      |
-| `_sass/_themes.scss`               | `/_sass/_themes.scss`     | done    | Colour override — navy accent. Already working.                                            |
-| `_sass/_typography.scss`           | `/_sass/_typography.scss` | DRAFT   | Font override (Source Serif 4 body + Source Sans 3 headings). Needs gem check — see notes. |
-| `_pages/about.md`                  | `/_pages/about.md`        | ready   | Landing page (bio, photo, contact).                                                        |
-| `_pages/cv.md`                     | `/_pages/cv.md`           | ready   | CV page — links to your PDF.                                                               |
-| `_pages/research.md`               | `/_pages/research.md`     | DRAFT   | The Research page (projects collection, topic-grouped). Needs gem check.                   |
-| `_projects/_TEMPLATE.md`           | `/_projects/<slug>.md`    | ready   | Copy once per research piece. One file = one card.                                         |
-| `_projects/example-temperature.md` | `/_projects/...`          | example | A filled-in example so you see the shape.                                                  |
-| `content/website-texts.docx`       | (knowledge base only)     | ready   | Your drafting doc for all site prose. NOT in the repo.                                     |
-
-Files we do NOT ship (you edit in place, just once):
-
-- `_pages/publications.md`, `_pages/teaching.md`, `_pages/books.md`,
-  `_pages/blog.md`, `_pages/projects.md` (the demo one), the "dropdown"/submenu
-  pages → set `nav: false` in each so they leave the navbar. (You've largely
-  done this.) We don't keep copies of these; just remember the step.
+- **Landing page** (`_pages/about.md`) — bio, photo (`RWI_Lukas-4646.jpg`),
+  contact line. Social icons, news, posts all off.
+- **Navbar** — About / research / CV. All other demo pages set `nav: false`.
+- **Colour** — navy accent via `_sass/_themes.scss` override. Dark-mode toggle
+  off (`enable_darkmode: false`).
+- **Font** — Source Serif 4, self-hosted, via `_sass/_typography.scss` override +
+  `google_fonts` line in `_config.yml`. No serif/sans split (all serif).
+- **Self-hosted fonts / GDPR** — `third_party_libraries: download: true`, so the
+  build fetches fonts and serves them from your own domain (no Google contact at
+  page load). Confirmed working.
+- **CV** — navbar "CV" redirects straight to the PDF
+  (`assets/pdf/CURRICULUM_VITAE_RWI_Mogge.pdf`) via `_pages/cv.md`
+  (`layout: null` + meta-refresh + fallback link). The PDF is currently a
+  placeholder (full RWI CV); replace the file (same name) to update.
+- **Research page** — custom layout (`_pages/research.md`), described below.
+- **Search** off (`search_enabled: false`).
 
 ---
 
-## 3. Per-file detail
+## 3. The research page (custom — the important bit)
 
-### `_config.yml`
+Your Research page does NOT use al-folio's stock projects cards (those are
+clickable boxes that open a separate detail page — not what you wanted). Instead
+`_pages/research.md` holds a **custom layout**: a Liquid loop + inline `<style>`
+that renders each piece as **full-width title → authors → journal-or-status →
+figure-left / text-right (abstract) → links**, grouped by topic. No cards, no
+click-through. This matches the "journalism / Aguilar-Gómez" look.
 
-Mostly done already. New/least-obvious bits are marked with `# LM:` comments:
+How it works:
 
-- `search_enabled: false` (you turned off the ⌘K search)
-- `enable_darkmode: false` (you removed the light/dark toggle)
-- the `google_fonts` line has Source Serif 4 + Source Sans 3 added (the "load"
-  half of the font change — see fonts below)
-- `scholar:` name fields set to you (was Einstein)
-  Leave the `al_folio:`, `plugins:`, `theme:` and `third_party_libraries:` blocks
-  alone — that's the build machinery.
+- `display_categories` (front-matter) lists the topic groups, in order. Each must
+  EXACTLY match the `category:` in the project files.
+- `category_intros` (front-matter) optionally maps a category to an intro
+  paragraph shown under its heading (currently used for the meta-science group).
+- The loop pulls `site.projects`, filters by category, sorts by `importance`.
+- Images use `{% include figure.liquid … %}` so they go through the responsive
+  `.webp` pipeline (do NOT hand-write `<img>` — it would bypass that).
+- The `<style>` block controls: title size (`1.4rem`), status black vs authors
+  grey, 38% figure / rest text, and mobile stacking (figure above text under
+  768px).
 
-### `_sass/_themes.scss` — COLOUR (done, working)
+### One research piece = one file in `_projects/`
 
-A verbatim copy of the gem's `_themes.scss` with two lines changed in `:root`:
+Front-matter fields:
+
+- `title` — full paper title; include the year in `(…)` for PUBLISHED pieces;
+  no year for unpublished.
+- `authors` — e.g. "With A, B, and C" (rendered grey).
+- `journal` — the journal name, for published pieces (rendered _italic_, black).
+- `status` — for unpublished pieces instead of `journal` (rendered roman,
+  black). Renders as HTML, so you can italicise a venue inside it with `<em>…</em>`
+  and write anything: "Working paper", "Work in progress",
+  "Ruhr Economic Paper #1201", "Under review at <em>Geneva Papers</em>",
+  "Accepted at <em>Journal of Economic Literature</em>". Use `journal` OR
+  `status`, not both.
+- `img` — the figure, in `assets/img/` (optional; text goes full-width if absent).
+- `importance` — order within the topic group (lower = higher up).
+- `category` — one of the exact `display_categories` strings.
+  Body (below front-matter): the abstract, then a links line, e.g.
+  `[Journal article](URL) · [Replication package](URL)`.
+
+### Adding / changing a research piece
+
+1. Copy an existing `_projects/*.md` to a new slug (lowercase-hyphens).
+2. Fill the front-matter; write the abstract + links in the body.
+3. Add any figure to `assets/img/` (resize to ~1600px wide first — see §5).
+4. Preview, commit, push. To reorder, change `importance`. To re-theme a topic,
+   edit `display_categories` (and the matching `category:` in each file).
+
+Current pieces (9): perception-protection, anticipatory-cash-transfers,
+charity-hazard, allocation-humanitarian-aid, stated-realized-demand-vietnam
+(Weather risk…); heat-violence-children (Temperature effects);
+researcher-variation, manydaughters, robustness-replicability (Meta science…).
+
+---
+
+## 4. The overrides (fragile files — re-check after gem upgrade)
+
+- `_sass/_themes.scss` — COLOUR. Verbatim copy of the gem's file with two lines
+  changed in `:root`: `--global-theme-color: #1f3a5f` and
+  `--global-hover-color: #16293f`. To change colour: edit those two hex values.
+- `_sass/_typography.scss` — FONT. Verbatim copy of the gem's file with one added
+  `body { font-family: "Source Serif 4", Georgia, serif; }` rule near the top
+  (marked `LM`). To compare/change fonts: edit that one line.
+- `_pages/research.md` — the custom research layout (loop + CSS). Not a gem-file
+  shadow, but it is custom logic worth keeping a knowledge-base copy of.
+
+If a gem upgrade changes the originals, re-copy the gem's new `_themes.scss` /
+`_typography.scss` and re-apply the marked lines.
+
+---
+
+## 5. Figures (for the research page)
+
+- Export from Stata as PNG (`graph export fig.png, width(2000)`), or
+  PowerPoint → PDF → PNG at 300 DPI (avoids PowerPoint's blurry PNG export).
+- Resize to ~1600px wide before adding (Paint: Resize → Pixels → 1600 wide,
+  keep aspect ratio → Save as PNG). Keeps files small; the build then generates
+  responsive `.webp` sizes automatically.
+- Put the web copy in `assets/img/`; keep the high-res original elsewhere for
+  print.
+- Mixed aspect ratios are fine — the layout handles varying heights. Solve any
+  layout issue in the CSS, never by padding image files.
+
+---
+
+## 6. The Word drafting doc (`website-texts.docx`)
+
+Source of truth for all site PROSE: bio, each research abstract, statuses.
+Rule to avoid drift: **edit text in the doc, then copy into the site files.
+Never edit prose directly in the site files.** When you refine a working-paper
+status (e.g. add a Ruhr Economic Paper number), draft it in the doc, then copy to
+the project file's `status` field. Keep the doc in your knowledge base.
+
+---
+
+## 7. Environment & workflow
+
+### Three places the repo lives
+
+- **GitHub** — source of truth; pushing triggers the deploy.
+- **Laptop** (Git Bash / VS Code) — quick edits, NO local preview (no admin →
+  no Ruby/Jekyll).
+- **Codespaces** — cloud dev machine WITH live preview. The workshop for anything
+  visual. Connect from VS Code desktop ("Codespaces: Connect to Codespace…") to
+  avoid the browser copy-paste problems.
+
+Pick ONE place per session. `git pull` BEFORE editing; commit + push after.
+
+### Codespaces loop
+
+1. Connect from VS Code desktop (bottom-left shows green "Codespaces").
+2. `git pull` first.
+3. `bundle exec jekyll serve` → open the forwarded port (Ports tab / popup).
+4. Edit → save → preview auto-rebuilds. EXCEPTION: `_config.yml` changes and
+   `git pull` need a server restart (`Ctrl+C`, then serve again).
+5. Use a SECOND terminal for git/grep so the server keeps running in the first.
+6. Commit + push. Stop (don't delete) the Codespace when done; it auto-suspends.
+   The "directory already being watched" warnings on serve are harmless.
+
+### Git basics
 
 ```
---global-theme-color: #1f3a5f;   /* navy — links, active nav, headings */
---global-hover-color: #16293f;   /* darker navy — hover */
+git pull                      # before editing
+git add -A                    # stage all (includes deletions!)
+git commit -m "message"       # note the -m
+git push                      # triggers deploy
+git status                    # confirm clean
 ```
 
-To change colour later: edit those two hex values, save, preview, push. Nothing
-else. If you ever upgrade the gem, re-copy its new `_themes.scss` and re-apply
-these two lines (that's the override tax).
-
-### `_sass/_typography.scss` — FONTS (DRAFT — needs one gem check)
-
-Two-font "serious journalism" pairing: **Source Serif 4** for body text,
-**Source Sans 3** for headings/nav. Two linked steps:
-
-1. LOAD (done in `_config.yml` `google_fonts` line) — fetches the fonts.
-2. USE (this file) — tells the theme to apply them.
-   OPEN QUESTION we must resolve against the live gem before this is final:
-   the theme's base font is set in `assets/tailwind/app.css` line 36
-   (`font-family: Roboto, sans-serif;`), NOT in a Sass variable we found. So the
-   correct override file/hook still needs confirming. Next session: view lines
-   30–40 of the gem's `app.css` and the top of the gem's `_typography.scss`, then
-   we finalise this file. Treat the shipped version as a placeholder.
-
-### `_pages/about.md` (ready)
-
-Your landing page. Bio in the body; photo via `image:` (points to
-`assets/img/RWI_Lukas-4553.jpg`); `social: false`, news/posts off. Edit prose in
-the Word doc, paste here.
-
-### `_pages/cv.md` (ready)
-
-Links to a PDF CV you upload to `assets/pdf/cv.pdf`. The `cv_pdf:` front-matter
-field makes the download button appear. Replace the PDF anytime by overwriting
-that file. (We can also do the fancy rendered-from-data CV later; this is the
-simple, robust version.)
-
-### `_pages/research.md` + `_projects/` (DRAFT — needs gem check)
-
-Your single Research page: curated, grouped by topic, free-format, includes
-unpublished work. Built on the **projects collection** — one Markdown file per
-research piece in `_projects/`, each its own card (figure + heading + however
-much text you want + links). `research.md` is the page that lists them; the
-topic grouping uses the `category` field in each project file.
-OPEN QUESTION: how the gem's projects layout actually renders a card (figure
-left / text right, like your reference) — confirm next session by viewing the
-gem's `projects` layout, then we adjust. The TEMPLATE and example show the
-intended front-matter.
-
----
-
-## 4. Writing a new research piece (once Research is set up)
-
-1. Copy `_projects/_TEMPLATE.md` to `_projects/my-slug.md` (slug = short name,
-   lowercase-hyphens, becomes the URL).
-2. Fill the front-matter: `title`, `category` (your topic), `importance`
-   (controls order), `img` (thumbnail in `assets/img/`), link fields.
-3. Write the body text in Markdown — as much or as little as you like.
-4. Add the figure to `assets/img/`. You provide these.
-5. Preview, commit, push.
-
----
-
-## 5. The Word drafting doc (`content/website-texts.docx`)
-
-Source of truth for all site _prose_: bio, each research description, CV intro,
-any page text. Rule to avoid drift: **edit text in the doc, then copy into the
-site files. Never edit prose directly in the site files.** Keep the doc in your
-knowledge base; it is not part of the repo.
-
----
-
-## 6. Environment setup (reference)
-
-### The three places your repo lives
-
-- **GitHub** (`github.com/lukasmogge/lukasmogge.github.io`) — the source of
-  truth. Pushing here triggers the deploy.
-- **Your laptop** (Git Bash / VS Code) — for quick edits. No local preview
-  (no admin rights → no Ruby/Jekyll locally).
-- **Codespaces** — cloud dev machine, gives the live preview. This is the
-  workshop for anything visual (colour, fonts, layout).
-
-Pick ONE place per work session to avoid sync confusion. Before editing in
-either, `git pull` first. After finishing, commit + push.
-
-### Codespaces workflow
-
-1. Open the repo's Codespace (github.com/codespaces or the repo's Code button).
-2. `git pull` to get the latest.
-3. `bundle exec jekyll serve` → click the forwarded-port popup to preview.
-4. Edit → save → the preview auto-rebuilds (a few seconds).
-   EXCEPTION: `_config.yml` changes and `git pull` need a server restart
-   (`Ctrl+C`, then `bundle exec jekyll serve` again).
-5. Commit + push when happy.
-6. Stop (don't delete) the Codespace when done — it suspends itself after 30
-   min idle. Delete only to reclaim storage, and only after pushing.
-   NOTE: the gem's dev server assumes baseurl `/al-folio`; your live site uses
-   blank baseurl (correct). Preview at the URL the server prints.
-
-### Git basics (Git Bash or VS Code terminal)
-
-```
-git pull                      # get latest before editing
-git add -A                    # stage all changes
-git commit -m "message"       # save a snapshot
-git push                      # send to GitHub → triggers deploy
-git status                    # see what changed / confirm clean
-```
+The LF→CRLF warnings on Windows are harmless. An "Auto update markdown TOC"
+commit appearing on pull is a GitHub Action, not you.
 
 ### Deploy
 
-Pushing to `main` triggers the `deploy` GitHub Action, which builds with the
-full gem toolchain and publishes to the `gh-pages` branch. Settings → Pages is
-set to serve from `gh-pages` (root). Live a few minutes after push. The other
-red Actions (Lighthouse, Prettier, broken-link, Docker) are optional extras you
-can ignore or delete later.
+Push to `main` → the `deploy` Action builds (full gem toolchain, fetches
+self-hosted fonts) and publishes to `gh-pages`. Settings → Pages serves from
+`gh-pages` (root). Live a few minutes after push. Other red Actions (Lighthouse,
+Prettier, broken-link, Docker) are optional extras — ignore or delete.
 
 ---
 
-## 7. Later: being found better (SEO) — noted, not done yet
+## 8. Open / later
 
-When ready: turn on `serve_og_meta` / `serve_schema_org`, write a real
-`description`, add Google Search Console verification, ensure the sitemap is
-generated (it is, via jekyll-sitemap), and make sure each page has sensible
-title/description. Low effort, worth doing once the content is in place.
+- **CV font** — your Word CV is Georgia; the site is Source Serif 4. They don't
+  match (both serif, different faces). To match exactly, install Source Serif 4
+  into Word, or accept the near-match. Replace `assets/pdf/CURRICULUM_VITAE_RWI_Mogge.pdf`
+  with the final CV (same filename) when ready.
+- **Richer statuses** — add discussion-paper numbers etc. to `status` fields as
+  papers progress (draft in the doc first).
+- **Figures for more pieces** — only 2 of 9 have figures; add more when you have
+  them (just set `img:`).
+- **SEO / being found** — later: turn on `serve_og_meta` / `serve_schema_org`,
+  write a real `description`, add Google Search Console verification. The sitemap
+  is already generated (jekyll-sitemap).
