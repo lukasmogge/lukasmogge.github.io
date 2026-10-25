@@ -26,11 +26,13 @@ Gem version at last edit: **al_folio_core 1.0.15**.
   compiled `assets/css/main.css`.
 
 ### "Is this change safe?" test
-Only edits *your* files (`_config.yml`, `_pages/`, `_projects/`, bio, assets) →
-safe. Needs copying/editing a *gem* file (anything mirroring `_sass/…`) →
+
+Only edits _your_ files (`_config.yml`, `_pages/`, `_projects/`, bio, assets) →
+safe. Needs copying/editing a _gem_ file (anything mirroring `_sass/…`) →
 override; note it, re-check after a gem upgrade.
 
 ### Updates
+
 You are NOT obliged to update the gems. A pinned version keeps working. When you
 do update, run `bundle exec al-folio upgrade audit` — it flags your overrides
 (`_sass/_themes.scss`, `_sass/_typography.scss`) so you can re-check them against
@@ -69,6 +71,7 @@ figure-left / text-right (abstract) → links**, grouped by topic. No cards, no
 click-through. This matches the "journalism / Aguilar-Gómez" look.
 
 How it works:
+
 - `display_categories` (front-matter) lists the topic groups, in order. Each must
   EXACTLY match the `category:` in the project files.
 - `category_intros` (front-matter) optionally maps a category to an intro
@@ -81,11 +84,13 @@ How it works:
   768px).
 
 ### One research piece = one file in `_projects/`
+
 Front-matter fields:
+
 - `title` — full paper title; include the year in `(…)` for PUBLISHED pieces;
   no year for unpublished.
 - `authors` — e.g. "With A, B, and C" (rendered grey).
-- `journal` — the journal name, for published pieces (rendered *italic*, black).
+- `journal` — the journal name, for published pieces (rendered _italic_, black).
 - `status` — for unpublished pieces instead of `journal` (rendered roman,
   black). Renders as HTML, so you can italicise a venue inside it with `<em>…</em>`
   and write anything: "Working paper", "Work in progress",
@@ -95,10 +100,11 @@ Front-matter fields:
 - `img` — the figure, in `assets/img/` (optional; text goes full-width if absent).
 - `importance` — order within the topic group (lower = higher up).
 - `category` — one of the exact `display_categories` strings.
-Body (below front-matter): the abstract, then a links line, e.g.
-`[Journal article](URL) · [Replication package](URL)`.
+  Body (below front-matter): the abstract, then a links line, e.g.
+  `[Journal article](URL) · [Replication package](URL)`.
 
 ### Adding / changing a research piece
+
 1. Copy an existing `_projects/*.md` to a new slug (lowercase-hyphens).
 2. Fill the front-matter; write the abstract + links in the body.
 3. Add any figure to `assets/img/` (resize to ~1600px wide first — see §5).
@@ -143,6 +149,7 @@ If a gem upgrade changes the originals, re-copy the gem's new `_themes.scss` /
 ---
 
 ## 6. The Word drafting doc (`website-texts.docx`)
+
 Source of truth for all site PROSE: bio, each research abstract, statuses.
 Rule to avoid drift: **edit text in the doc, then copy into the site files.
 Never edit prose directly in the site files.** When you refine a working-paper
@@ -154,6 +161,7 @@ the project file's `status` field. Keep the doc in your knowledge base.
 ## 7. Environment & workflow
 
 ### Three places the repo lives
+
 - **GitHub** — source of truth; pushing triggers the deploy.
 - **Laptop** (Git Bash / VS Code) — quick edits, NO local preview (no admin →
   no Ruby/Jekyll).
@@ -164,6 +172,7 @@ the project file's `status` field. Keep the doc in your knowledge base.
 Pick ONE place per session. `git pull` BEFORE editing; commit + push after.
 
 ### Codespaces loop
+
 1. Connect from VS Code desktop (bottom-left shows green "Codespaces").
 2. `git pull` first.
 3. `bundle exec jekyll serve` → open the forwarded port (Ports tab / popup).
@@ -174,6 +183,7 @@ Pick ONE place per session. `git pull` BEFORE editing; commit + push after.
    The "directory already being watched" warnings on serve are harmless.
 
 ### Git basics
+
 ```
 git pull                      # before editing
 git add -A                    # stage all (includes deletions!)
@@ -181,10 +191,12 @@ git commit -m "message"       # note the -m
 git push                      # triggers deploy
 git status                    # confirm clean
 ```
+
 The LF→CRLF warnings on Windows are harmless. An "Auto update markdown TOC"
 commit appearing on pull is a GitHub Action, not you.
 
 ### Deploy
+
 Push to `main` → the `deploy` Action builds (full gem toolchain, fetches
 self-hosted fonts) and publishes to `gh-pages`. Settings → Pages serves from
 `gh-pages` (root). Live a few minutes after push. Other red Actions (Lighthouse,
