@@ -4,7 +4,7 @@ title: research
 permalink: /research/
 nav: true
 nav_order: 2
-description: Selected research by theme.
+description: Selected research by theme
 display_categories: ["Weather risk, risk management, and assistance", "Temperature effects", "Meta science and many-researcher projects"]
 category_intros:
   "Meta science and many-researcher projects": "I am interested in how research itself is conducted, and in what empirical work can and cannot deliver. In recent years, I have contributed to several meta-science projects."
@@ -49,8 +49,10 @@ category_intros:
   border-bottom: 1px solid var(--global-divider-color);
 }
 .research-intro {
+  font-size: 1.1rem;
+  color: var(--global-text-color-light);
   margin-bottom: 1.5rem;
-  color: var(--global-text-color);
+  max-width: 48rem;
 }
 .research-item {
   margin-bottom: 3rem;
