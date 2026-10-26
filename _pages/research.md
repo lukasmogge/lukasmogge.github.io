@@ -7,7 +7,7 @@ nav_order: 2
 description: Selected research by theme
 display_categories: ["Weather risk, risk management, and assistance", "Temperature effects", "Meta science and many-researcher projects"]
 category_intros:
-  "Meta science and many-researcher projects": "I am interested in how research itself is conducted, and in what empirical work can and cannot deliver. In recent years, I have contributed to several meta-science projects."
+  "Meta science and many-researcher projects": "I am interested in how research itself is conducted, and in what empirical work can and cannot deliver. In recent years, I have contributed to several meta-science projects:"
 ---
 
 <div class="research-list">
